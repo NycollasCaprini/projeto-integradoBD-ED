@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * @author User
  */
 public class Conexao {
-    private static final String URL = "jdbc:postgresql://localhost:5432/Estacionamento";
+    private static final String URL = "jdbc:postgresql://localhost:5432/estacionamento";
     private static final String USER = "root";
     private static final String PASSWORD = "root";
     
