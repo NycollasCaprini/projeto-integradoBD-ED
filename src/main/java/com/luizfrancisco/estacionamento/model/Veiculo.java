@@ -10,12 +10,12 @@ package com.luizfrancisco.estacionamento.model;
  */
 public class Veiculo {
     private int id;
-    private int idCliente;
+    private Cliente idCliente;
     private String modelo;
     private String cor;
     private String placa;
 
-    public Veiculo(int id, int idCliente, String modelo, String cor, String placa) {
+    public Veiculo(int id, Cliente idCliente, String modelo, String cor, String placa) {
         this.id = id;
         this.idCliente = idCliente;
         this.modelo = modelo;
@@ -31,11 +31,11 @@ public class Veiculo {
         this.id = id;
     }
 
-    public int getIdCliente() {
+    public Cliente getCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setCliente(Cliente idCliente) {
         this.idCliente = idCliente;
     }
 
