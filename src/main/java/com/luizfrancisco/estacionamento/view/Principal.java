@@ -8,6 +8,7 @@ import com.luizfrancisco.estacionamento.dao.ClienteDAO;
 import com.luizfrancisco.estacionamento.dao.VeiculoDAO;
 import com.luizfrancisco.estacionamento.model.Cliente;
 import com.luizfrancisco.estacionamento.model.Veiculo;
+import javax.swing.JOptionPane;
 /**
  *
  * @author User
@@ -15,6 +16,7 @@ import com.luizfrancisco.estacionamento.model.Veiculo;
 public class Principal extends javax.swing.JFrame {
     private static final VeiculoDAO vDAO = new VeiculoDAO();
     private static final ClienteDAO cDAO = new ClienteDAO();
+    private Cliente clienteSelecionado = null;
     public Principal() {
         initComponents();
     }
@@ -210,6 +212,11 @@ public class Principal extends javax.swing.JFrame {
         txtModeloVeiculoCadastro.setBorder(javax.swing.BorderFactory.createTitledBorder("Modelo"));
 
         btnSalvarCadastroCliente6.setText("Salvar");
+        btnSalvarCadastroCliente6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarCadastroCliente6ActionPerformed(evt);
+            }
+        });
 
         btnSalvarCadastroCliente7.setText("Deletar");
 
@@ -759,6 +766,12 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSalvarCadastroClienteActionPerformed
 
+    private void btnSalvarCadastroCliente6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente6ActionPerformed
+       if(retornaVeiculo() != null){
+           vDAO.inserir(retornaVeiculo());
+       }
+    }//GEN-LAST:event_btnSalvarCadastroCliente6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -870,21 +883,27 @@ private Cliente retornaCliente(){
         return c;
     }
 
-private Veiculo retornaVeiculo(Cliente dono){
-        String placa = txtPlacaOp.getText();
-        String modelo = txtModeloOp.getText();
-        String cor = txtCorOp.getText();
+private Veiculo retornaVeiculo(){
+        String placa = txtPlacaVeiculoCadastro.getText();
+        String modelo = txtModeloVeiculoCadastro.getText();
+        String cor = txtCorVeiculoCadastro.getText();
+        
+        if(this.clienteSelecionado == null){
+            JOptionPane.showMessageDialog(this, "Não foi selecionado nenhum cliente", "ERRO", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
         
         Veiculo v = new Veiculo();
         v.setCor(cor);
         v.setModelo(modelo);
         v.setPlaca(placa);
-        v.setCliente(dono);
         
+        v.setCliente(this.clienteSelecionado);
         return v;
     }
 
 public void preencherCliente(Cliente c){
+        this.clienteSelecionado = c;
         txtNomeClienteVeiculo.setText(c.getNome());
     }
 }
