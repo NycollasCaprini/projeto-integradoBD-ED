@@ -4,10 +4,12 @@
  */
 package com.luizfrancisco.estacionamento.view;
 
+import com.luizfrancisco.estacionamento.controller.ClienteController;
 import com.luizfrancisco.estacionamento.dao.ClienteDAO;
 import com.luizfrancisco.estacionamento.dao.VeiculoDAO;
 import com.luizfrancisco.estacionamento.model.Cliente;
 import com.luizfrancisco.estacionamento.model.Veiculo;
+import javax.swing.JOptionPane;
 /**
  *
  * @author User
@@ -15,9 +17,15 @@ import com.luizfrancisco.estacionamento.model.Veiculo;
 public class Principal extends javax.swing.JFrame {
     private static final VeiculoDAO vDAO = new VeiculoDAO();
     private static final ClienteDAO cDAO = new ClienteDAO();
+    private Cliente clienteSelecionado = null;
+    private final ClienteController cc = new ClienteController();
     public Principal() {
         initComponents();
+        cc.atualizaTabela(tblClientesPrincipal);
+
     }
+    
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -32,13 +40,13 @@ public class Principal extends javax.swing.JFrame {
         Clientes = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         txtNomeClienteCadastro = new javax.swing.JTextField();
-        txtEmailClienteOp1 = new javax.swing.JTextField();
-        txtTelefoneClienteOp1 = new javax.swing.JTextField();
+        txtEmailClienteCadastro = new javax.swing.JTextField();
+        txtTelefoneClienteCadastro = new javax.swing.JTextField();
         btnSalvarCadastroCliente = new javax.swing.JButton();
         btnSalvarCadastroCliente1 = new javax.swing.JButton();
         btnSalvarCadastroCliente5 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        tblClientesPrincipal = new javax.swing.JTable();
         Veiculo = new javax.swing.JPanel();
         jPanel12 = new javax.swing.JPanel();
         txtPlacaVeiculoCadastro = new javax.swing.JTextField();
@@ -100,11 +108,16 @@ public class Principal extends javax.swing.JFrame {
 
         txtNomeClienteCadastro.setBorder(javax.swing.BorderFactory.createTitledBorder("Nome completo do cliente"));
 
-        txtEmailClienteOp1.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
+        txtEmailClienteCadastro.setBorder(javax.swing.BorderFactory.createTitledBorder("Email"));
 
-        txtTelefoneClienteOp1.setBorder(javax.swing.BorderFactory.createTitledBorder("Telefone"));
+        txtTelefoneClienteCadastro.setBorder(javax.swing.BorderFactory.createTitledBorder("Telefone"));
 
         btnSalvarCadastroCliente.setText("Salvar");
+        btnSalvarCadastroCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarCadastroClienteActionPerformed(evt);
+            }
+        });
 
         btnSalvarCadastroCliente1.setText("Deletar");
         btnSalvarCadastroCliente1.addActionListener(new java.awt.event.ActionListener() {
@@ -130,9 +143,9 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(txtNomeClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addComponent(txtTelefoneClienteOp1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtTelefoneClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(txtEmailClienteOp1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtEmailClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(btnSalvarCadastroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -147,8 +160,8 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNomeClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefoneClienteOp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtEmailClienteOp1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefoneClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEmailClienteCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarCadastroCliente)
@@ -157,7 +170,7 @@ public class Principal extends javax.swing.JFrame {
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        tblClientesPrincipal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -168,7 +181,7 @@ public class Principal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        jScrollPane4.setViewportView(tblClientesPrincipal);
 
         javax.swing.GroupLayout ClientesLayout = new javax.swing.GroupLayout(Clientes);
         Clientes.setLayout(ClientesLayout);
@@ -205,6 +218,11 @@ public class Principal extends javax.swing.JFrame {
         txtModeloVeiculoCadastro.setBorder(javax.swing.BorderFactory.createTitledBorder("Modelo"));
 
         btnSalvarCadastroCliente6.setText("Salvar");
+        btnSalvarCadastroCliente6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarCadastroCliente6ActionPerformed(evt);
+            }
+        });
 
         btnSalvarCadastroCliente7.setText("Deletar");
 
@@ -477,7 +495,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBuscarOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuscarOp)))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(19, 19, 19))
         );
 
@@ -748,6 +766,18 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarOperacaoActionPerformed
 
+    private void btnSalvarCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroClienteActionPerformed
+        if(retornaCliente() != null){
+            cDAO.inserir(retornaCliente());
+        }
+    }//GEN-LAST:event_btnSalvarCadastroClienteActionPerformed
+
+    private void btnSalvarCadastroCliente6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente6ActionPerformed
+       if(retornaVeiculo() != null){
+           vDAO.inserir(retornaVeiculo());
+       }
+    }//GEN-LAST:event_btnSalvarCadastroCliente6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -829,14 +859,14 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField8;
+    private javax.swing.JTable tblClientesPrincipal;
     private javax.swing.JTextField txtBuscarOperacao;
     private javax.swing.JTextField txtCorOp;
     private javax.swing.JTextField txtCorVeiculoCadastro;
-    private javax.swing.JTextField txtEmailClienteOp1;
+    private javax.swing.JTextField txtEmailClienteCadastro;
     private javax.swing.JTextField txtEmailOp;
     private javax.swing.JTextField txtModeloOp;
     private javax.swing.JTextField txtModeloVeiculoCadastro;
@@ -845,12 +875,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtNomeClienteVeiculo;
     private javax.swing.JTextField txtPlacaOp;
     private javax.swing.JTextField txtPlacaVeiculoCadastro;
-    private javax.swing.JTextField txtTelefoneClienteOp1;
+    private javax.swing.JTextField txtTelefoneClienteCadastro;
     // End of variables declaration//GEN-END:variables
 private Cliente retornaCliente(){
-        String nome = txtEmailOp.getText();
-        String email = txtCorOp.getText();
-        String telefone = txtCorOp.getText();
+        String nome = txtNomeClienteCadastro.getText();
+        String email = txtEmailClienteCadastro.getText();
+        String telefone = txtEmailClienteCadastro.getText();
         
         Cliente c = new Cliente();
         c.setNome(nome);
@@ -859,21 +889,27 @@ private Cliente retornaCliente(){
         return c;
     }
 
-private Veiculo retornaVeiculo(Cliente dono){
-        String placa = txtPlacaOp.getText();
-        String modelo = txtModeloOp.getText();
-        String cor = txtCorOp.getText();
+private Veiculo retornaVeiculo(){
+        String placa = txtPlacaVeiculoCadastro.getText();
+        String modelo = txtModeloVeiculoCadastro.getText();
+        String cor = txtCorVeiculoCadastro.getText();
+        
+        if(this.clienteSelecionado == null){
+            JOptionPane.showMessageDialog(this, "Não foi selecionado nenhum cliente", "ERRO", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
         
         Veiculo v = new Veiculo();
         v.setCor(cor);
         v.setModelo(modelo);
         v.setPlaca(placa);
-        v.setCliente(dono);
         
+        v.setCliente(this.clienteSelecionado);
         return v;
     }
 
 public void preencherCliente(Cliente c){
+        this.clienteSelecionado = c;
         txtNomeClienteVeiculo.setText(c.getNome());
     }
 }
