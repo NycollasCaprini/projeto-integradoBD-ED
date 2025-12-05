@@ -35,17 +35,12 @@ public class VeiculoDAO {
                 System.out.println("ERRO -> " + e);
             }
     }
-// Supondo que você esteja na classe VeiculoDAO
-// Supondo que você esteja na classe VeiculoDAO
 public List<Veiculo> listarVeiculo() {
     List<Veiculo> listaVeiculos = new ArrayList<>();
-    ClienteDAO clienteDAO = new ClienteDAO();
     
-    // Obtém a lista COMPLETA de todos os clientes, usando o método existente
-    List<Cliente> todosClientes = clienteDAO.listar(); 
-    
-    // 1. Comando SQL para Veículo
-    String sql = "SELECT id_veiculo, modelo, cor, placa, id_cliente FROM veiculo";
+    String sql = "SELECT v.id_veiculo, v.modelo, v.cor, v.placa,c.id_cliente, c.nome, c.email "
+            + " FROM veiculo AS v INNER JOIN cliente AS c ON "
+            + "v.id_cliente = c.id_cliente";
 
     try (Connection con = Conexao.getConnection();
          PreparedStatement ps = con.prepareStatement(sql);
@@ -54,22 +49,19 @@ public List<Veiculo> listarVeiculo() {
         while (rs.next()) {
             Veiculo v = new Veiculo();
 
-            // Mapeamento dos atributos simples...
             v.setId(rs.getInt("id_veiculo"));
             v.setModelo(rs.getString("modelo"));
             v.setCor(rs.getString("cor"));
             v.setPlaca(rs.getString("placa"));
 
-            // 2. Resolução do Objeto (Busca na lista já carregada)
-            int idCliente = rs.getInt("id_cliente"); 
+ 
             
-            // Procura o cliente na lista completa usando o ID
-            for (Cliente c : todosClientes) {
-                if (c.getId() == idCliente) {
-                    v.setCliente(c); // Seta o objeto Cliente encontrado
-                    break;           // Interrompe a busca após encontrar
-                }
-            }
+            Cliente c = new Cliente();
+            c.setId(rs.getInt("id_cliente"));
+            c.setNome(rs.getString("nome"));
+            c.setEmail(rs.getString("email"));
+            
+            v.setCliente(c);
             
             listaVeiculos.add(v);
         }
@@ -77,7 +69,6 @@ public List<Veiculo> listarVeiculo() {
     } catch (SQLException e) {
         System.out.println("Erro ao listar veículo: " + e);
     } 
-
     return listaVeiculos;
 }
 }

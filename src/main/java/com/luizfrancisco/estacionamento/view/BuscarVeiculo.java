@@ -5,6 +5,7 @@
 package com.luizfrancisco.estacionamento.view;
 
 import com.luizfrancisco.estacionamento.controller.ClienteController;
+import com.luizfrancisco.estacionamento.controller.VeiculoController;
 
 /**
  *
@@ -13,11 +14,18 @@ import com.luizfrancisco.estacionamento.controller.ClienteController;
 public class BuscarVeiculo extends javax.swing.JFrame {
     private Principal origem;
     private ClienteController cc = new ClienteController();
+    private VeiculoController vc = new VeiculoController();
     /**
      * Creates new form BuscarVeiculo
      */
     public BuscarVeiculo() {
         initComponents();
+    }
+    
+    public BuscarVeiculo(Principal origem) {
+        initComponents();
+        vc.atualizaTabela(tblBuscarVeiculos);
+        this.origem = origem;
     }
 
     /**
