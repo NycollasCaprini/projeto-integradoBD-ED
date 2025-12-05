@@ -61,6 +61,11 @@ public class BuscarClientes extends javax.swing.JFrame {
         });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jRadioButton1.setText("Nome");
 
