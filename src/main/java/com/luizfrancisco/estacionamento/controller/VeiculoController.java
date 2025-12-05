@@ -28,11 +28,11 @@ public class VeiculoController {
         
         for (Veiculo v : dao.listarVeiculo()) {
             model.addRow(new Object[]{
-                v.getCliente(),
                 v.getId(),
-                v.getCor(),
-                v.getModelo(),
                 v.getPlaca(),
+                v.getModelo(),
+                v.getCliente().getNome(),
+                
             });
         }
     }
