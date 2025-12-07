@@ -23,7 +23,7 @@ public class VagaDAO {
     public List<Vaga> listarVagas() {
     List<Vaga> listaVagas = new ArrayList<>();
     
-    String sql = "SELECT * FROM vaga";
+    String sql = "SELECT id_vaga, status FROM vaga ORDER BY id_vaga";
 
     try (Connection con = Conexao.getConnection();
          PreparedStatement ps = con.prepareStatement(sql);
@@ -32,7 +32,8 @@ public class VagaDAO {
         while (rs.next()) {
             Vaga v = new Vaga();
 
-            v.setId(rs.getInt("id_veiculo"));
+            v.setId(rs.getInt("id_vaga"));
+                
             v.setStatus(rs.getBoolean("status"));
             listaVagas.add(v);
         }

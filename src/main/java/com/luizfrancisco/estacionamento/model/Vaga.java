@@ -38,7 +38,7 @@ public class Vaga {
 
     @Override
     public String toString() {
-        return "Vaga{" + "id=" + id + ", status=" + status + '}';
+        return "Vaga " + this.id;
     }
     
     
