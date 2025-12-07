@@ -29,7 +29,7 @@ public class Principal extends javax.swing.JFrame {
     private static final VagaDAO vgDAO = new VagaDAO();
     private Cliente clienteSelecionado = null;
     private Veiculo veiculoSelecionado = null;
-    private Vaga vagaSelecionada = null;
+    
     private final ClienteController cc = new ClienteController();
     private int linhaSelecionada = -1;
     private final VeiculoController vc = new VeiculoController();
@@ -46,7 +46,6 @@ public class Principal extends javax.swing.JFrame {
         vgc.atualizaTabela(tblVagas);
         oc.atualizaTabela(operacaoTable);
         preencheCbxVaga();
-        
         setLocationRelativeTo(null);
         setResizable(false);
     }
@@ -90,7 +89,7 @@ public class Principal extends javax.swing.JFrame {
         txtPlacaOp = new javax.swing.JTextField();
         txtCorOp = new javax.swing.JTextField();
         txtModeloOp = new javax.swing.JTextField();
-        btnSalvarCadastroCliente9 = new javax.swing.JButton();
+        btnSalvarCadastroOperacao = new javax.swing.JButton();
         btnSalvarCadastroCliente10 = new javax.swing.JButton();
         btnSalvarCadastroCliente11 = new javax.swing.JButton();
         lblBuscarVeiculo = new javax.swing.JLabel();
@@ -390,10 +389,10 @@ public class Principal extends javax.swing.JFrame {
 
         txtModeloOp.setBorder(javax.swing.BorderFactory.createTitledBorder("Modelo"));
 
-        btnSalvarCadastroCliente9.setText("Salvar");
-        btnSalvarCadastroCliente9.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvarCadastroOperacao.setText("Salvar");
+        btnSalvarCadastroOperacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarCadastroCliente9ActionPerformed(evt);
+                btnSalvarCadastroOperacaoActionPerformed(evt);
             }
         });
 
@@ -500,7 +499,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnBuscarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(btnSalvarCadastroCliente9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnSalvarCadastroOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnSalvarCadastroCliente10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -545,7 +544,7 @@ public class Principal extends javax.swing.JFrame {
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnSalvarCadastroCliente9)
+                            .addComponent(btnSalvarCadastroOperacao)
                             .addComponent(btnSalvarCadastroCliente10)
                             .addComponent(btnSalvarCadastroCliente11))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -999,22 +998,28 @@ Veiculo v = retornaVeiculo();
     }      
     }//GEN-LAST:event_btnDeletarVeiculoActionPerformed
 
-    private void btnSalvarCadastroCliente9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente9ActionPerformed
-        if(veiculoSelecionado == null || vagaSelecionada == null){
-            JOptionPane.showMessageDialog(this, "Selecione um veículo e uma vaga!");
-            return;
+    private void btnSalvarCadastroOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroOperacaoActionPerformed
+        Vaga vagaDoCombo = (Vaga) cbxVagas.getSelectedItem();
+        if (veiculoSelecionado == null) {
+            JOptionPane.showMessageDialog(this, "Selecione um veículo (busque pelo botão 'Buscar Veículo')!");
+        return;
+        }
+        if (vagaDoCombo == null) {
+            JOptionPane.showMessageDialog(this, "Selecione uma vaga na lista!");
+        return;
         }
         try{
-            String precoTexto = ftdPrecoHora.getText();
-            double preco = Double.parseDouble(precoTexto);
-            Operacao op = retornaOperacao(veiculoSelecionado, vagaSelecionada, preco);
+            
+            Operacao op = retornaOperacao();
+            op.setVaga(vagaDoCombo);
             oDAO.inserirEntrada(op);
+            oc.atualizaTabela(operacaoTable);
             JOptionPane.showMessageDialog(this, "Entrada registrada com sucesso!");
             
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
         }
-    }//GEN-LAST:event_btnSalvarCadastroCliente9ActionPerformed
+    }//GEN-LAST:event_btnSalvarCadastroOperacaoActionPerformed
 
     private void cbxVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVagasActionPerformed
         
@@ -1070,7 +1075,7 @@ Veiculo v = retornaVeiculo();
     private javax.swing.JButton btnSalvarCadastroCliente10;
     private javax.swing.JButton btnSalvarCadastroCliente11;
     private javax.swing.JButton btnSalvarCadastroCliente5;
-    private javax.swing.JButton btnSalvarCadastroCliente9;
+    private javax.swing.JButton btnSalvarCadastroOperacao;
     private javax.swing.JButton btnSalvarCadastroVeiculo;
     private javax.swing.JComboBox<Vaga> cbxVagas;
     private javax.swing.JFormattedTextField ftdPrecoHora;
@@ -1151,13 +1156,12 @@ private Veiculo retornaVeiculo(){
         return v;
     }
 
-private Operacao retornaOperacao(Veiculo veiculo, Vaga vaga, double precoHora){
-
+private Operacao retornaOperacao(){
+    
     Operacao op = new Operacao();
     op.setHorarioEntrada(LocalDateTime.now());
-    op.setVeiculo(veiculo);
-    op.setVaga(vaga);
-    op.setValorHora(precoHora);
+    op.setVeiculo(veiculoSelecionado);
+    
     
     op.setValorTotal(0.0);
     
@@ -1193,11 +1197,12 @@ public void limparCamposVeiculo() {
 
     }
 
-public void preencheCbxVaga(){
+public final void preencheCbxVaga(){
     cbxVagas.removeAllItems();
-
     
-    for (Vaga v : vgDAO.listarVagas())
-        cbxVagas.addItem(v);
+
+        for (Vaga v : vgDAO.listarVagas()) {
+            cbxVagas.addItem(v);
+        }
     }
 }

@@ -7,6 +7,7 @@ import com.luizfrancisco.estacionamento.dao.OperacaoDAO;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import com.luizfrancisco.estacionamento.model.Operacao;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -19,14 +20,16 @@ public class OperacaoController {
         DefaultTableModel model = (DefaultTableModel) tabela.getModel();
         
         model.setNumRows(0);
-        
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         for(Operacao o : od.listarOperacao()){
+        String entradaFormatada = o.getHorarioEntrada().format(dtf);
+        String saidaFormatada = o.getHorarioSaida().format(dtf);
             model.addRow(new Object[]{
                 o.getId_operacao(),
                 o.getVaga().getId(),
                 o.getVeiculo().getPlaca(),
-                o.getHorarioEntrada(),
-                o.getHorarioSaida(),
+                entradaFormatada,
+                saidaFormatada,
                 o.getValorTotal(),
                 o.getValorHora()
             });

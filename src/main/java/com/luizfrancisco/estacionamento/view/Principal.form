@@ -531,7 +531,7 @@
                                           <Component id="btnBuscarOp" min="-2" pref="83" max="-2" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="btnSalvarCadastroCliente9" min="-2" pref="100" max="-2" attributes="0"/>
+                                          <Component id="btnSalvarCadastroOperacao" min="-2" pref="100" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                           <Component id="btnSalvarCadastroCliente10" min="-2" pref="100" max="-2" attributes="0"/>
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -589,7 +589,7 @@
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="btnSalvarCadastroCliente9" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="btnSalvarCadastroOperacao" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnSalvarCadastroCliente10" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="btnSalvarCadastroCliente11" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -640,12 +640,12 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnSalvarCadastroCliente9">
+                <Component class="javax.swing.JButton" name="btnSalvarCadastroOperacao">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Salvar"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarCadastroCliente9ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSalvarCadastroOperacaoActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnSalvarCadastroCliente10">
@@ -801,6 +801,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cbxVagasActionPerformed"/>
                   </Events>
                   <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_SerializeTo" type="java.lang.String" value="Principal_cbxVagas"/>
                     <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Vaga&gt;"/>
                   </AuxValues>
                 </Component>

@@ -22,7 +22,7 @@ public class OperacaoDAO {
     
     public void inserirEntrada(Operacao o){
         String sql = "INSERT INTO operacao (horario_entrada, id_veiculo, id_vaga, valor_hora)"
-                + "VALUES (?, ?, ?)";
+                + "VALUES (?, ?, ?, ?)";
         
         try(Connection con = Conexao.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql);
@@ -57,17 +57,17 @@ public class OperacaoDAO {
     }
     
     public List<Operacao> listarOperacao(){
-        List<Operacao> listaOperacao = new ArrayList<>();
+        List<Operacao> lista = new ArrayList<>();
         
         String sql = "SELECT "
            + " o.id_operacao, "
            + " o.horario_entrada, "
            + " o.horario_saida, "
            + " o.valor_total, "
-           // Dados do Veículo
+
            + " v.placa, "
            + " v.modelo, "
-           // Dados da Vaga
+
            + " vg.id_vaga, "
            + " vg.status as status_vaga "
            + "FROM operacao o "
@@ -107,7 +107,7 @@ public class OperacaoDAO {
     
     
                 operacao.setVaga(vaga); // Associa a vaga à operação
-                listaOperacao.add(operacao);
+                lista.add(operacao);
             }
         
         }catch(SQLException e){
@@ -115,6 +115,6 @@ public class OperacaoDAO {
         
         }
         
-        return listarOperacao();
+        return lista;
     } 
 }
