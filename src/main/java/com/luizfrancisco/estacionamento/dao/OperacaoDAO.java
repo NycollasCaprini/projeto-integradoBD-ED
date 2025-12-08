@@ -130,8 +130,24 @@ public class OperacaoDAO {
         
         if (rs.next()) {
             op.setId_operacao(rs.getInt("id_operacao"));
-            op.setHorarioEntrada(rs.getTimestamp("horario_entrada").toLocalDateTime());
+            Vaga v = new Vaga();
+            v.setId(rs.getInt("id_vaga"));
+            op.setVaga(v);
+            
+            Timestamp tsEntrada = rs.getTimestamp("horario_entrada");
+            if (tsEntrada != null) {
+                op.setHorarioEntrada(tsEntrada.toLocalDateTime());
+            }
+            
+            Timestamp tsSaida = rs.getTimestamp("horario_saida");
+            if (tsSaida != null) {
+                op.setHorarioSaida(tsSaida.toLocalDateTime());
+            } else {
+                op.setHorarioSaida(null);
+            }
+
             op.setValorHora(rs.getDouble("valor_hora"));
+            op.setValorTotal(rs.getDouble("valor_total"));
         }
     } catch (SQLException e) {
         System.out.println("Erro ao buscar operacao: " + e);

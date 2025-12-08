@@ -44,9 +44,7 @@ CREATE table operacao(
 CREATE OR REPLACE FUNCTION fn_atualizar_status_da_vaga()
 RETURNS TRIGGER AS $$
 BEGIN
-    
     IF TG_OP = 'INSERT' THEN
-        
         IF NEW.horario_saida IS NULL THEN
             UPDATE vaga
             SET status = true
@@ -66,6 +64,22 @@ CREATE TRIGGER tr_atualiza_status_da_vaga
 AFTER INSERT OR UPDATE ON OPERACAO
 FOR EACH ROW
 EXECUTE FUNCTION fn_atualizar_status_da_vaga();
+
+CREATE OR REPLACE FUNCTION fn_bloquear_vaga_ocupada()
+RETURN TRIGGER AS $$
+BEGIN
+	IF EXISTS(SELECT 1 FROM vaga WHERE id_vaga = NEW.id_vaga AND status = true) THEN
+		RAISE EXCEPTION 'A vaga % já está ocupada!', NEW.id_vaga;
+	END IF;
+
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER tr_impedir_duplicidade_vaga
+BEFORE INSER ON operacao
+FOR EACH ROW
+EXECUTE FUNCTION fn_bloquear_vaga_ocupada();
 	
 
 INSERT INTO vaga (status) VALUES (false); 
