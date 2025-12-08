@@ -40,12 +40,12 @@ public class OperacaoDAO {
     }
     
     public void inserirSaida(Operacao o){
-        String sql = "UPDATE operacao SET horario_saida = ?, valor_total = ?, WHERE id_operacao = ?";
+        String sql = "UPDATE operacao SET horario_saida = ?, valor_total = ? WHERE id_operacao = ?";
         
         try(Connection con = Conexao.getConnection();
                 PreparedStatement ps = con.prepareStatement(sql);
                 ){
-                    ps.setTimestamp(1, Timestamp.valueOf(o.getHorarioEntrada()));
+                    ps.setTimestamp(1, Timestamp.valueOf(o.getHorarioSaida()));
                     ps.setDouble(2, o.getValorTotal());
                     ps.setInt(3, o.getId_operacao());
                     ps.executeUpdate();
@@ -106,7 +106,7 @@ public class OperacaoDAO {
                 vaga.setStatus(rs.getBoolean("status_vaga"));
     
     
-                operacao.setVaga(vaga); // Associa a vaga à operação
+                operacao.setVaga(vaga);
                 lista.add(operacao);
             }
         
@@ -117,10 +117,32 @@ public class OperacaoDAO {
         
         return lista;
     } 
+    
+    public Operacao buscarPorId(int id) {
+    String sql = "SELECT * FROM operacao WHERE id_operacao = ?";
+    Operacao op = new Operacao();
+    
+    try (Connection con = Conexao.getConnection();
+         PreparedStatement ps = con.prepareStatement(sql)) {
+        
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next()) {
+            op.setId_operacao(rs.getInt("id_operacao"));
+            op.setHorarioEntrada(rs.getTimestamp("horario_entrada").toLocalDateTime());
+            op.setValorHora(rs.getDouble("valor_hora"));
+        }
+    } catch (SQLException e) {
+        System.out.println("Erro ao buscar operacao: " + e);
+    }
+    return op;
+}
+
 public List<Operacao> buscar(String termoBusca) {
         List<Operacao> lista = new ArrayList<>();
         
-        // Query com JOIN para buscar por Placa, ID da Operacao ou ID da Vaga.
+      
         String sql = """
                      SELECT o.id_operacao, o.horario_entrada, o.horario_saida, o.valor_total, v.placa, v.modelo, vg.id_vaga, vg.status AS status_vaga 
                      FROM operacao AS o 
@@ -135,10 +157,10 @@ public List<Operacao> buscar(String termoBusca) {
         try (java.sql.Connection con = com.luizfrancisco.estacionamento.database.Conexao.getConnection(); 
              java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // Define os 3 parâmetros de busca com o termo digitado
-            ps.setString(1, "%" + termoBusca + "%"); // ID da Operação
-            ps.setString(2, "%" + termoBusca + "%"); // Placa do Veículo
-            ps.setString(3, "%" + termoBusca + "%"); // ID da Vaga
+      
+            ps.setString(1, "%" + termoBusca + "%"); 
+            ps.setString(2, "%" + termoBusca + "%"); 
+            ps.setString(3, "%" + termoBusca + "%"); 
 
             try (java.sql.ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
@@ -173,4 +195,5 @@ public List<Operacao> buscar(String termoBusca) {
         }
         return lista;
     }
+
 }

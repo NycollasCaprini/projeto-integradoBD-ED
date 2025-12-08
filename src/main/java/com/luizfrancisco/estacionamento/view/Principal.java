@@ -16,7 +16,10 @@ import com.luizfrancisco.estacionamento.model.Cliente;
 import com.luizfrancisco.estacionamento.model.Operacao;
 import com.luizfrancisco.estacionamento.model.Veiculo;
 import com.luizfrancisco.estacionamento.model.Vaga;
+import java.util.List;
 import java.time.LocalDateTime;
+import com.luizfrancisco.estacionamento.model.Operacao;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -30,6 +33,7 @@ public class Principal extends javax.swing.JFrame {
     private static final VagaDAO vgDAO = new VagaDAO();
     private Cliente clienteSelecionado = null;
     private Veiculo veiculoSelecionado = null;
+    private Operacao op;
     
     private final ClienteController cc = new ClienteController();
     private int linhaSelecionada = -1;
@@ -43,10 +47,11 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
-        cc.atualizaTabela(tblClientesPrincipal);
-        vc.atualizaTabela(tblCadastroVeiculos);
-        vgc.atualizaTabela(tblVagas);
-        oc.atualizaTabela(tblOperacao);
+        txtValorHora.setText("R$ 0,00");
+        atualizarTabelaClientes("");
+        atualizarTabelaVeiculos("");
+        atualizarTabelaVagas("");
+        atualizarTabelaOperacoes("");
         preencheCbxVaga();
         setLocationRelativeTo(null);
         setResizable(false);
@@ -63,6 +68,7 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        vagasBtnGroup = new javax.swing.ButtonGroup();
         Principal = new javax.swing.JTabbedPane();
         Clientes = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
@@ -109,8 +115,8 @@ public class Principal extends javax.swing.JFrame {
         txtBuscarOperacao = new javax.swing.JTextField();
         btnBuscarOp = new javax.swing.JButton();
         cbxVagas = new javax.swing.JComboBox<>();
-        ftdPrecoHora = new javax.swing.JFormattedTextField();
         jToggleButton1 = new javax.swing.JToggleButton();
+        txtValorHora = new javax.swing.JTextField();
         jScrollPane5 = new javax.swing.JScrollPane();
         tblOperacao = new javax.swing.JTable();
         Vagas = new javax.swing.JPanel();
@@ -125,6 +131,9 @@ public class Principal extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        rdbLivre = new javax.swing.JRadioButton();
+        rdbOcupada = new javax.swing.JRadioButton();
+        rdbTodas = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -535,6 +544,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         btnBuscarOp.setText("Buscar");
+        btnBuscarOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarOpActionPerformed(evt);
+            }
+        });
 
         cbxVagas.setBorder(javax.swing.BorderFactory.createTitledBorder("Selecione a vaga"));
         cbxVagas.addActionListener(new java.awt.event.ActionListener() {
@@ -543,12 +557,11 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        ftdPrecoHora.setBorder(javax.swing.BorderFactory.createTitledBorder("Preço/Hora"));
-        ftdPrecoHora.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤¤#,##0.00"))));
-
         jToggleButton1.setBackground(new java.awt.Color(255, 255, 250));
         jToggleButton1.setText("Imprimir relatório");
         jToggleButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        txtValorHora.setBorder(javax.swing.BorderFactory.createTitledBorder("Valor/Hora"));
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
@@ -578,17 +591,17 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNomeClienteOp, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(cbxVagas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(ftdPrecoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblBuscarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addComponent(txtPlacaOp, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtModeloOp, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtCorOp, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtCorOp, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addComponent(cbxVagas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtValorHora, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblBuscarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -603,12 +616,11 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addComponent(txtNomeClienteOp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cbxVagas)
-                    .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(ftdPrecoHora)
-                        .addComponent(lblBuscarVeiculo)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbxVagas, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblBuscarVeiculo)
+                    .addComponent(txtValorHora, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -660,9 +672,9 @@ public class Principal extends javax.swing.JFrame {
         OperacionalLayout.setVerticalGroup(
             OperacionalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(OperacionalLayout.createSequentialGroup()
-                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 387, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -748,20 +760,55 @@ public class Principal extends javax.swing.JFrame {
                 .addGap(14, 14, 14))
         );
 
+        rdbLivre.setBackground(new java.awt.Color(255, 255, 255));
+        vagasBtnGroup.add(rdbLivre);
+        rdbLivre.setText("Livre");
+        rdbLivre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbLivreActionPerformed(evt);
+            }
+        });
+
+        rdbOcupada.setBackground(new java.awt.Color(255, 255, 255));
+        vagasBtnGroup.add(rdbOcupada);
+        rdbOcupada.setText("Ocupada");
+        rdbOcupada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbOcupadaActionPerformed(evt);
+            }
+        });
+
+        rdbTodas.setBackground(new java.awt.Color(255, 255, 255));
+        vagasBtnGroup.add(rdbTodas);
+        rdbTodas.setText("Todas");
+        rdbTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdbTodasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addComponent(txtBuscarVaga)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
-                            .addComponent(btnBuscarVaga)
-                            .addGap(0, 156, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 119, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 266, Short.MAX_VALUE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(btnBuscarVaga)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rdbTodas)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rdbLivre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(rdbOcupada))
+                            .addComponent(txtBuscarVaga))
+                        .addGap(66, 66, 66)))
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(198, 198, 198))
         );
@@ -776,8 +823,12 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtBuscarVaga, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscarVaga)))
-                .addContainerGap(129, Short.MAX_VALUE))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBuscarVaga)
+                            .addComponent(rdbLivre)
+                            .addComponent(rdbOcupada)
+                            .addComponent(rdbTodas))))
+                .addContainerGap(139, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout VagasLayout = new javax.swing.GroupLayout(Vagas);
@@ -794,8 +845,7 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, VagasLayout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE))
         );
 
         Principal.addTab("Vagas", Vagas);
@@ -843,7 +893,7 @@ public class Principal extends javax.swing.JFrame {
                 cDAO.deletar(idCliente);
 
                 // 5. Atualiza a tabela para refletir a exclusão
-                cc.atualizaTabela(tblClientesPrincipal);
+                atualizarTabelaClientes("");
 
                 // 6. Limpa os campos de texto do cadastro de cliente
                 limparCamposCliente(); // Você deve criar este método (veja abaixo)
@@ -893,7 +943,15 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNomeClienteOpActionPerformed
 
     private void btnFinalizarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFinalizarOpActionPerformed
-
+        linhaSelecionada = tblOperacao.getSelectedRow();
+        if(linhaSelecionada != -1 ){
+           int id = (int) tblOperacao.getValueAt(linhaSelecionada, 0);
+           oc.checkout(id);
+           
+           atualizarTabelaOperacoes("");
+           atualizarTabelaVagas("");
+           JOptionPane.showMessageDialog(this, "Operação finalizada!");
+        }
     }//GEN-LAST:event_btnFinalizarOpActionPerformed
 
     private void txtBuscarOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarOperacaoActionPerformed
@@ -903,35 +961,21 @@ public class Principal extends javax.swing.JFrame {
     private void btnSalvarCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroClienteActionPerformed
         Cliente c = retornaCliente();
     
-    if(c != null){
+        if(c != null){
         cDAO.inserir(c);
-        
-        // **********************************************
-        // 1. CHAMA O CONTROLLER PARA ATUALIZAR A TABELA
-        cc.atualizaTabela(tblClientesPrincipal);
-        
-        // 2. LIMPA OS CAMPOS APÓS A INSERÇÃO
+        atualizarTabelaClientes("");
         limparCamposCliente();
-        // **********************************************
-        
         JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
     }
     }//GEN-LAST:event_btnSalvarCadastroClienteActionPerformed
 
     private void btnSalvarCadastroVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroVeiculoActionPerformed
-    Veiculo v = retornaVeiculo();
+        Veiculo v = retornaVeiculo();
     
-    if(v != null){
+        if(v != null){
         vDAO.inserir(v);
-        
-        // **********************************************
-        // 1. CHAMA O CONTROLLER PARA ATUALIZAR A TABELA DE VEÍCULOS
-        vc.atualizaTabela(tblCadastroVeiculos); // Use o nome correto da sua JTable de veículos
-        
-        // 2. LIMPA OS CAMPOS APÓS A INSERÇÃO
-        limparCamposVeiculo(); 
-        // **********************************************
-        
+        atualizarTabelaVeiculos("");
+        limparCamposVeiculo();     
         JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
     }
     }//GEN-LAST:event_btnSalvarCadastroVeiculoActionPerformed
@@ -941,35 +985,24 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_tblCadastroVeiculosMouseClicked
 
     private void tblClientesPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesPrincipalMouseClicked
-// 1. Armazena o índice da linha que foi clicada
+
     linha = tblClientesPrincipal.getSelectedRow();
 
-    // 2. Verifica se uma linha válida foi selecionada
-    if (linha > -1) {
-        // 3. Obtém os valores da linha selecionada
+   
+        if (linha > -1) {
         int id = (int) tblClientesPrincipal.getValueAt(linha, 0);
         String nome = tblClientesPrincipal.getValueAt(linha, 1).toString();
-        
-        // Cuidado! O valor da coluna 2 é o Email, não o Telefone.
         String email = tblClientesPrincipal.getValueAt(linha, 2) != null ? tblClientesPrincipal.getValueAt(linha, 2).toString() : ""; 
         String telefone = tblClientesPrincipal.getValueAt(linha, 3) != null ? tblClientesPrincipal.getValueAt(linha, 3).toString() : "";
-
-        // 4. Cria um objeto Cliente e o armazena na variável de instância (se for usar para edição/exclusão)
-        // Você pode não precisar desta linha se apenas for preencher os campos.
-        // Cliente c = new Cliente(id, nome, email, telefone); 
-        
-        // 5. Preenche os campos de texto na aba de Cadastro de Cliente
         txtNomeClienteCadastro.setText(nome);
         txtEmailClienteCadastro.setText(email);
-        
-        // Corrigindo: No seu método retornaCliente, você usou 'txtEmailClienteCadastro' duas vezes.
-        // O campo para telefone deve ser 'txtTelefoneClienteCadastro'.
+
         txtTelefoneClienteCadastro.setText(telefone); 
         }
     }//GEN-LAST:event_tblClientesPrincipalMouseClicked
 
     private void btnDeletarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarVeiculoActionPerformed
-// Usando 'linhaVeiculo' como exemplo da variável que armazena a seleção
+
     int linhaVeiculo = tblCadastroVeiculos.getSelectedRow(); 
 
     if (linhaVeiculo < 0) {
@@ -981,7 +1014,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
     } else {
-        // 1. Obtém o ID do veículo da coluna 0 (onde o ID deve estar)
+       
         int idVeiculo = (int) tblCadastroVeiculos.getValueAt(linhaVeiculo, 0);
 
         int confirmacao = JOptionPane.showConfirmDialog(this, 
@@ -990,17 +1023,17 @@ public class Principal extends javax.swing.JFrame {
 
         if (confirmacao == JOptionPane.YES_OPTION) {
             try {
-                // 2. Chama o DAO para deletar
+
                 vDAO.deletar(idVeiculo);
                 
-                // 3. ATUALIZA A TABELA e limpa os campos após o sucesso
-                vc.atualizaTabela(tblCadastroVeiculos); 
+
+                atualizarTabelaVeiculos("");
                 limparCamposVeiculo();
 
                 JOptionPane.showMessageDialog(this, "Veículo excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             } catch (RuntimeException e) {
-                // Trata a exceção lançada pelo DAO (geralmente por Foreign Key)
+           
                 JOptionPane.showMessageDialog(this, 
                         "Erro ao excluir. O veículo pode estar em uso.", 
                         "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1024,8 +1057,9 @@ public class Principal extends javax.swing.JFrame {
             Operacao op = retornaOperacao();
             op.setVaga(vagaDoCombo);
             oDAO.inserirEntrada(op);
-            oc.atualizaTabela(tblOperacao);
-            JOptionPane.showMessageDialog(this, "Entrada registrada com sucesso!");
+            atualizarTabelaOperacoes("");
+            atualizarTabelaVagas("");
+             JOptionPane.showMessageDialog(this, "Entrada registrada com sucesso!");
             
         }catch (Exception e){
             JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
@@ -1045,15 +1079,15 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarVeiculoActionPerformed
 
     private void btnBuscarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarClienteActionPerformed
-    atualizarTabelaOperacoesComFiltro(txtBuscarOperacao.getText());
+    atualizarTabelaOperacoes(txtBuscarOperacao.getText());
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
     private void txtBuscarOperacaoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarOperacaoKeyPressed
-    atualizarTabelaOperacoesComFiltro(txtBuscarOperacao.getText());
+    atualizarTabelaOperacoes(txtBuscarOperacao.getText());
     }//GEN-LAST:event_txtBuscarOperacaoKeyPressed
 
     private void txtBuscarVagaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarVagaKeyPressed
-    atualizarTabelaVagasComFiltro(txtBuscarVaga.getText());
+    atualizarTabelaVagas(txtBuscarVaga.getText());
     }//GEN-LAST:event_txtBuscarVagaKeyPressed
 
     private void btnBuscarVagaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVagaActionPerformed
@@ -1065,7 +1099,7 @@ public class Principal extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) tblClientesPrincipal.getModel();
         model.setNumRows(0);
 
-        // 4. Preenche a tabela com a lista resultante (filtrada ou completa)
+       
         for (Cliente c : cDAO.buscar(buscar)){
             model.addRow(new Object[]{
                 c.getId(),
@@ -1077,14 +1111,29 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarClienteKeyPressed
 
     private void txtBuscarVeiculoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarVeiculoKeyPressed
-    atualizarTabelaVeiculosComFiltro(txtBuscarVeiculo.getText());
+    atualizarTabelaVeiculos(txtBuscarVeiculo.getText());
     }//GEN-LAST:event_txtBuscarVeiculoKeyPressed
 
     private void btnBuscarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVeiculoActionPerformed
         String buscar = txtBuscarVeiculo.getText();
-        // Chama a mesma lógica da busca instantânea
-        atualizarTabelaComFiltro(buscar);
+        atualizarTabelaVeiculos(buscar);
     }//GEN-LAST:event_btnBuscarVeiculoActionPerformed
+
+    private void btnBuscarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarOpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarOpActionPerformed
+
+    private void rdbLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbLivreActionPerformed
+            atualizarTabelaVagas(txtBuscarVaga.getText());
+    }//GEN-LAST:event_rdbLivreActionPerformed
+
+    private void rdbOcupadaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbOcupadaActionPerformed
+        atualizarTabelaVagas(txtBuscarVaga.getText());
+    }//GEN-LAST:event_rdbOcupadaActionPerformed
+
+    private void rdbTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdbTodasActionPerformed
+            atualizarTabelaVagas(txtBuscarVaga.getText());
+    }//GEN-LAST:event_rdbTodasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1142,7 +1191,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnSalvarCadastroOperacao;
     private javax.swing.JButton btnSalvarCadastroVeiculo;
     private javax.swing.JComboBox<Vaga> cbxVagas;
-    private javax.swing.JFormattedTextField ftdPrecoHora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1165,6 +1213,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblBuscarVeiculo;
+    private javax.swing.JRadioButton rdbLivre;
+    private javax.swing.JRadioButton rdbOcupada;
+    private javax.swing.JRadioButton rdbTodas;
     private javax.swing.JTable tblCadastroVeiculos;
     private javax.swing.JTable tblClientesPrincipal;
     private javax.swing.JTable tblOperacao;
@@ -1184,6 +1235,8 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtPlacaOp;
     private javax.swing.JTextField txtPlacaVeiculoCadastro;
     private javax.swing.JTextField txtTelefoneClienteCadastro;
+    private javax.swing.JTextField txtValorHora;
+    private javax.swing.ButtonGroup vagasBtnGroup;
     // End of variables declaration//GEN-END:variables
 private Cliente retornaCliente(){
         String nome = txtNomeClienteCadastro.getText();
@@ -1215,13 +1268,13 @@ private Veiculo retornaVeiculo(){
         return v;
     }
 private Operacao retornaOperacao(){
-    
+    double precoHora = Double.parseDouble(txtValorHora.getText());
     Operacao op = new Operacao();
     op.setHorarioEntrada(LocalDateTime.now());
     op.setVeiculo(veiculoSelecionado);
+    op.setValorHora(precoHora);
     
     
-    op.setValorTotal(0.0);
     
     return op;
 }
@@ -1261,21 +1314,12 @@ public final void preencheCbxVaga(){
             cbxVagas.addItem(v);
         }
     }
-private void atualizarTabelaComFiltro(String busca) {
-DefaultTableModel model = (DefaultTableModel) tblClientesPrincipal.getModel();
-        model.setNumRows(0); // Limpa a tabela
+public void atualizarTabelaClientes(String busca) {
+        DefaultTableModel model = (DefaultTableModel) tblClientesPrincipal.getModel();
+        model.setNumRows(0);
 
-        java.util.List<Cliente> clientes;
-        String buscaTermo = busca.trim();
-        
-        // 1. Decide se lista tudo ou filtra
-        if (buscaTermo.isEmpty()) {
-            clientes = cDAO.listar(); // Usa o listar() se o campo estiver vazio
-        } else {
-            clientes = cDAO.buscar(buscaTermo); // Usa o novo método buscar(String)
-        }
-        
-        // 2. Preenche a tabela com a lista resultante (filtrada ou completa)
+        List<Cliente> clientes = cc.filtrarClientes(busca);
+
         for (Cliente c : clientes) {
             model.addRow(new Object[]{
                 c.getId(),
@@ -1285,100 +1329,66 @@ DefaultTableModel model = (DefaultTableModel) tblClientesPrincipal.getModel();
             });
         }
 }
-private void atualizarTabelaVeiculosComFiltro(String busca) {
-        // !! SUBSTITUIR AQUI: Use o nome correto da sua JTable de Veículos !!
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblCadastroVeiculos.getModel();
+public void atualizarTabelaVeiculos(String busca) {
+   
+        DefaultTableModel model = (DefaultTableModel) tblCadastroVeiculos.getModel();
         model.setRowCount(0);
 
-        java.util.List<com.luizfrancisco.estacionamento.model.Veiculo> veiculos;
-        String buscaTermo = busca.trim();
-        
-        if (buscaTermo.isEmpty()) {
-            veiculos = vDAO.listarVeiculo(); 
-        } else {
-            veiculos = vDAO.buscar(buscaTermo); 
-        }
-        
-        // Preenche a tabela
+        List<Veiculo> veiculos = vc.filtrarVeiculos(busca);
+ 
+
         for (com.luizfrancisco.estacionamento.model.Veiculo v : veiculos) {
             model.addRow(new Object[]{
                 v.getId(),
                 v.getPlaca(),
                 v.getModelo(),
                 v.getCor(),
-                v.getCliente().getNome() // Pega o nome do cliente
+                v.getCliente().getNome() 
             });
         }
     }
-private void atualizarTabelaOperacoesComFiltro(String busca) {
-        // !! SUBSTITUA 'tblOperacoes' pelo nome da sua JTable de Operações !!
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblOperacao.getModel();
-        model.setRowCount(0);
+private void atualizarTabelaOperacoes(String busca) {
 
-        java.util.List<com.luizfrancisco.estacionamento.model.Operacao> operacoes;
-        String buscaTermo = busca.trim();
-        
-        // 1. Decide se lista tudo ou filtra
-        if (buscaTermo.isEmpty()) {
-            operacoes = oDAO.listarOperacao(); // Lista tudo
-        } else {
-            operacoes = oDAO.buscar(buscaTermo); // Filtra usando OperacaoDAO
-        }
-        
-        // 2. Preenche a tabela
-        for (com.luizfrancisco.estacionamento.model.Operacao op : operacoes) {
-            // Formata o horário de saída (mostra "Em Aberto" se null)
-            String horarioSaida = (op.getHorarioSaida() != null) ? op.getHorarioSaida().toString() : "Em Aberto";
+        DefaultTableModel model = (DefaultTableModel) tblOperacao.getModel();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        model.setRowCount(0);
+        List<Operacao> listaOperacoes;
+        listaOperacoes = oc.filtrarOperacoes(busca);
+
+        for (Operacao op : listaOperacoes) {
+            
+            String entradaFormatada = (op.getHorarioEntrada() != null) ? op.getHorarioEntrada().format(dtf) : "";
+            String saidaFormatada = (op.getHorarioSaida() != null) ? op.getHorarioSaida().format(dtf) : "Em andamento...";
             
             model.addRow(new Object[]{
                 op.getId_operacao(),
-                op.getVeiculo().getPlaca(),
-                op.getVeiculo().getModelo(),
                 op.getVaga().getId(),
-                op.getHorarioEntrada().toString(),
-                horarioSaida,
+                op.getVeiculo().getPlaca(),
+                op.getVaga().getId(),
+                entradaFormatada,
+                saidaFormatada,
                 op.getValorTotal()
             });
         }
     }
-private void atualizarTabelaVagasComFiltro(String busca) {
-        // !! SUBSTITUA 'tblVagas' pelo nome da sua JTable de Vagas !!
-        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblVagas.getModel();
+private void atualizarTabelaVagas(String buscaId) {
+       
+        DefaultTableModel model = (DefaultTableModel) tblVagas.getModel();
         model.setRowCount(0);
-
-        java.util.List<com.luizfrancisco.estacionamento.model.Vaga> vagas;
-        String buscaTermo = busca.trim();
         
-        if (buscaTermo.isEmpty()) {
-            vagas = vgDAO.listarVagas(); // Lista tudo
-        } else {
-            // 1. Primeiro, tenta buscar por ID (o que é feito no DAO)
-            vagas = vgDAO.buscar(buscaTermo); 
+        String statusFiltro = "TODAS";
+        if(rdbLivre.isSelected()) statusFiltro = "LIVRE";
+        else if (rdbOcupada.isSelected()) statusFiltro = "OCUPADA";
+        List<Vaga> vagas = vgc.filtrarVagas(buscaId, statusFiltro);
 
-            // 2. FILTRO NA VIEW (Filtra apenas se o termo for "true" ou "false")
-            String termoStatus = buscaTermo.toLowerCase();
-            
-            // Verifica se o termo digitado é EXATAMENTE "true" ou "false"
-            boolean isStatusFilterActive = termoStatus.equals("true") || termoStatus.equals("false"); 
-
-            if (isStatusFilterActive) {
-                // Determina o status booleano esperado pelo usuário
-                boolean isOcupada = termoStatus.equals("true"); 
-                
-                // Remove da lista todas as vagas cujo status não corresponde ao valor booleano esperado.
-                vagas.removeIf(v -> v.isStatus() != isOcupada); 
-            }
-        }
-        
-        // 3. Preenche a tabela
-        for (com.luizfrancisco.estacionamento.model.Vaga v : vagas) {
-            // EXIBIÇÃO AJUSTADA: Usa diretamente o valor booleano 'true' ou 'false'
-            String status = String.valueOf(v.isStatus()); 
-            
+       
+        for (Vaga v : vagas) {
+            String status = (v.isStatus()) ? "OCUPADA" : "LIVRE"; 
             model.addRow(new Object[]{
                 v.getId(),
-                status // Exibe "true" ou "false"
+                status 
             });
         }
     }
+
 }

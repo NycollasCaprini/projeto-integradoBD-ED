@@ -9,7 +9,7 @@ import com.luizfrancisco.estacionamento.controller.VeiculoController;
 import com.luizfrancisco.estacionamento.dao.VeiculoDAO;
 import com.luizfrancisco.estacionamento.model.Veiculo;
 import com.luizfrancisco.estacionamento.model.Cliente;
-
+import java.util.List;
 /**
  *
  * @author npc12
@@ -19,8 +19,6 @@ public class BuscarVeiculo extends javax.swing.JFrame {
     private ClienteController cc = new ClienteController();
     private VeiculoController vc = new VeiculoController();
     private int linhaSelecionada = -1;
-    private static final VeiculoDAO vDAO = new VeiculoDAO(); // ADICIONE ESTA LINHA
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(BuscarVeiculo.class.getName()); // ADICIONE ESTA LINHA (opcional, mas recomendado)
     /**
      * Creates new form BuscarVeiculo
      */
@@ -30,9 +28,8 @@ public class BuscarVeiculo extends javax.swing.JFrame {
     
     public BuscarVeiculo(Principal origem) {
         initComponents();
-        vc.atualizaTabela(tblBuscarVeiculos);
+        atualizarTabela("");
         this.origem = origem;
-        atualizarTabelaComFiltro("");
     }
 
     /**
@@ -181,13 +178,13 @@ public class BuscarVeiculo extends javax.swing.JFrame {
     private void txtPesquisaVeiculoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisaVeiculoKeyPressed
         String buscar = txtPesquisaVeiculo.getText();
         // A cada tecla solta, a tabela é atualizada automaticamente
-        atualizarTabelaComFiltro(buscar);
+        atualizarTabela(buscar);
     }//GEN-LAST:event_txtPesquisaVeiculoKeyPressed
 
     private void btnBuscarVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarVeiculoActionPerformed
     String buscar = txtPesquisaVeiculo.getText();
         // Chama a mesma lógica da busca instantânea
-        atualizarTabelaComFiltro(buscar);
+        atualizarTabela(buscar);
     }//GEN-LAST:event_btnBuscarVeiculoActionPerformed
 
     /**
@@ -233,28 +230,19 @@ public class BuscarVeiculo extends javax.swing.JFrame {
     private javax.swing.JTable tblBuscarVeiculos;
     private javax.swing.JTextField txtPesquisaVeiculo;
     // End of variables declaration//GEN-END:variables
-private void atualizarTabelaComFiltro(String busca) {
+private void atualizarTabela(String busca) {
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) tblBuscarVeiculos.getModel();
-        model.setRowCount(0); // Limpa a tabela
+        model.setRowCount(0);
 
-        java.util.List<Veiculo> veiculos;
-        String buscaTermo = busca.trim();
-        
-        // 1. Decide se lista tudo ou filtra
-        if (buscaTermo.isEmpty()) {
-            veiculos = vDAO.listarVeiculo(); // Se vazio, usa o listarVeiculo()
-        } else {
-            veiculos = vDAO.buscar(buscaTermo); // Se houver texto, usa o novo buscar(String)
-        }
-        
-        // 2. Preenche a tabela com a lista resultante (filtrada ou completa)
+        List<Veiculo> veiculos = vc.filtrarVeiculos(busca);
+       
         for (Veiculo v : veiculos) {
             model.addRow(new Object[]{
                 v.getId(),
                 v.getPlaca(),
                 v.getModelo(),
                 v.getCor(),
-                v.getCliente().getNome() // Pega o nome do cliente
+                v.getCliente().getNome() 
             });
         }
     }

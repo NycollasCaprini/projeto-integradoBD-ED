@@ -43,19 +43,28 @@ public class VagaDAO {
     } 
     return listaVagas;
 }
-    public List<Vaga> buscar(String termoBusca) {
+    public List<Vaga> buscar(String termoId, String filtroStatus) {
         List<Vaga> listaVagas = new ArrayList<>();
         
-        // Busca apenas pelo ID da vaga
-        String sql = "SELECT id_vaga, status FROM vaga WHERE CAST(id_vaga AS CHAR) LIKE ? ORDER BY id_vaga";
+        String sql = "SELECT * FROM vaga WHERE CAST(id_vaga AS CHAR) LIKE ?";
+        
+        if(!filtroStatus.equals("TODAS")){
+         sql += " AND status = ? ";
+        }
+        
+        sql += " ORDER BY id_vaga ASC";
 
-        try (java.sql.Connection con = com.luizfrancisco.estacionamento.database.Conexao.getConnection();
-             java.sql.PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = Conexao.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
 
-            // 1. ID da Vaga
-            ps.setString(1, "%" + termoBusca + "%");
+            ps.setString(1, "%" + termoId + "%");
+            
+            if(!filtroStatus.equals("TODAS")){
+                boolean isOcupada = filtroStatus.equals("OCUPADA");
+                ps.setBoolean(2, isOcupada);
+            }
 
-            try (java.sql.ResultSet rs = ps.executeQuery()) {
+            try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                     Vaga v = new Vaga();
                     v.setId(rs.getInt("id_vaga"));
@@ -68,5 +77,7 @@ public class VagaDAO {
         }
         return listaVagas;
     }
+    
+   
     
 }

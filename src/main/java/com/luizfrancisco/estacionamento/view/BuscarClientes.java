@@ -9,6 +9,7 @@ import com.luizfrancisco.estacionamento.dao.ClienteDAO;
 import com.luizfrancisco.estacionamento.model.Cliente;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
 /**
  *
@@ -30,7 +31,7 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     public BuscarClientes(Principal origem) {
         initComponents();
-        cc.atualizaTabela(tblBuscarClientes);
+        atualizarTabela("");
         this.origem = origem;
     }
 
@@ -149,7 +150,7 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     private void txtPesquisarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPesquisarClienteActionPerformed
         String buscar = txtPesquisarCliente.getText();
-        atualizarTabelaComFiltro(buscar);
+        atualizarTabela(buscar);
     }//GEN-LAST:event_txtPesquisarClienteActionPerformed
 
     private void btnSelecionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelecionarActionPerformed
@@ -185,8 +186,7 @@ public class BuscarClientes extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String buscar = txtPesquisarCliente.getText();
-        // Chama a mesma lógica da busca instantânea
-        atualizarTabelaComFiltro(buscar);
+        atualizarTabela(buscar);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void txtPesquisarClienteKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPesquisarClienteKeyPressed
@@ -240,21 +240,13 @@ public class BuscarClientes extends javax.swing.JFrame {
     private javax.swing.JTextField txtPesquisarCliente;
     // End of variables declaration//GEN-END:variables
 
-private void atualizarTabelaComFiltro(String busca) {
-DefaultTableModel model = (DefaultTableModel) tblBuscarClientes.getModel();
-        model.setNumRows(0); // Limpa a tabela
+private void atualizarTabela(String busca) {
+        DefaultTableModel model = (DefaultTableModel) tblBuscarClientes.getModel();
+        model.setNumRows(0); 
 
-        java.util.List<Cliente> clientes;
-        String buscaTermo = busca.trim();
+        List<Cliente> clientes = cc.filtrarClientes(busca);
         
-        // 1. Decide se lista tudo ou filtra
-        if (buscaTermo.isEmpty()) {
-            clientes = cDAO.listar(); // Usa o listar() se o campo estiver vazio
-        } else {
-            clientes = cDAO.buscar(buscaTermo); // Usa o novo método buscar(String)
-        }
-        
-        // 2. Preenche a tabela com a lista resultante (filtrada ou completa)
+       
         for (Cliente c : clientes) {
             model.addRow(new Object[]{
                 c.getId(),
@@ -264,8 +256,6 @@ DefaultTableModel model = (DefaultTableModel) tblBuscarClientes.getModel();
             });
         }
 }
-
-
 
 }
 

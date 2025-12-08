@@ -72,7 +72,6 @@ public class ClienteDAO {
 public List<Cliente> buscar(String nomeOuCodigo){
     List<Cliente> lista = new ArrayList<>();
     
-    // Query adaptada para buscar por NOME (LIKE) ou ID (CAST)
     String sql = """
                  SELECT id_cliente, nome, email, telefone 
                  FROM cliente
@@ -84,10 +83,9 @@ public List<Cliente> buscar(String nomeOuCodigo){
     try(Connection con = Conexao.getConnection(); 
         PreparedStatement ps = con.prepareStatement(sql)){
         
-        // Parâmetro 1: Busca por nome (usando % para buscar parte do nome)
+        
         ps.setString(1, "%" + nomeOuCodigo + "%");
         
-        // Parâmetro 2: Busca por ID (converte o ID para string e usa LIKE)
         ps.setString(2, "%" + nomeOuCodigo + "%");
         
         try(ResultSet rs = ps.executeQuery()){
