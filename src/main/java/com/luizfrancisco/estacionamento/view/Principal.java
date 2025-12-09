@@ -1281,7 +1281,7 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_tblVagasMouseEntered
 
     private void btnImprimirRelatorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirRelatorioActionPerformed
-        gerarRelatorio("RelatórioGaragem");
+        gerarRelatorio("relatorio_estacionamento");
     }//GEN-LAST:event_btnImprimirRelatorioActionPerformed
 
 
@@ -1589,7 +1589,7 @@ private void atualizarPainelDadosOperacao(Operacao op) {
 
 private void gerarRelatorio(String tipo){
     try {
-        String caminho = "src/main/resources/relatorios/"+tipo+".jasper";
+        String caminho = "/relatorios/" + tipo + ".jasper";
             
         Connection con = Conexao.getConnection();
             
