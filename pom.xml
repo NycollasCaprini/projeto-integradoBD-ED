@@ -18,16 +18,22 @@
             <version>42.7.7</version>
         </dependency>
         <dependency>
-            <groupId>net.sf.jasperreports</groupId>
+           <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
-            <version>7.0.3</version>
+            <version>6.21.0</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
     <dependency>
-        <groupId>net.sf.jasperreports</groupId>
-        <artifactId>jasperreports-pdf</artifactId>
-        <version>7.0.3</version>
-    </dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports-fonts</artifactId>
+            <version>6.21.0</version>
+        </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>jaspersoft-third-party</id>
+            <url>https://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/</url>
+        </repository>
+    </repositories>
     
 </project>
