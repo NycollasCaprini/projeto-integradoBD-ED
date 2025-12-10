@@ -70,7 +70,7 @@ public class OperacaoDAO {
         }
     }
     
-    public void atualizarOperacao(Operacao op) throws SQLException {
+    public void atualizarOperacao(int id, Operacao op) throws SQLException {
         String sql = "UPDATE operacao SET id_veiculo = ?, id_vaga = ?, horario_entrada = ?, valor_hora = ? WHERE id_operacao = ?";
         
         try(Connection con = Conexao.getConnection();
@@ -79,7 +79,7 @@ public class OperacaoDAO {
             ps.setInt(2, op.getVaga().getId());
             ps.setTimestamp(3, Timestamp.valueOf(op.getHorarioEntrada()));
             ps.setDouble(4, op.getValorHora());
-            ps.setInt(5, op.getId_operacao());
+            ps.setInt(5, id);
             
             ps.executeUpdate();
             

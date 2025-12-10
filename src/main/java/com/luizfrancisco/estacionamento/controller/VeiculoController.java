@@ -44,7 +44,18 @@ public class VeiculoController {
         }catch(Exception e){
             e.printStackTrace();
         }
+    }
     
+    public void deletarVeiculo(int id){
+        try{
+            if(id > 0){
+                dao.deletar(id);
+            }else{
+                System.out.println("veiculo invalido");
+            }
+        }catch(Exception e){
+            System.out.println("ERRO ao deletar veiculo -> " + e);
+        }
     }
 
     public List<Veiculo> filtrarVeiculos(String busca){

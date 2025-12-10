@@ -51,10 +51,10 @@ public class OperacaoController {
         dao.deletar(idOperacao);
     }
     
-    public void atualizarOperacao(Operacao op){
+    public void atualizarOperacao(int id, Operacao op){
         try{
-            if(op != null){
-                dao.atualizarOperacao(op);
+            if(id > 0 && op != null){
+                dao.atualizarOperacao(id, op);
             }else{
                 System.out.println("Operacao inválida");
             }
@@ -64,11 +64,17 @@ public class OperacaoController {
 
     }
     
-    public void buscarOp(int id){
-        if(id > 0){
-            dao.buscarPorId(id);
-        }
-    
+    public Operacao buscarOp(int id) {
+    if(id > 0) {
+        return dao.buscarPorId(id);
     }
-      
+    return null;
+}
+    
+    public void registrarSaida(Operacao op){
+        if(op != null){
+            dao.inserirSaida(op);
+        }
+    }
+    
 }
