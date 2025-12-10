@@ -50,5 +50,25 @@ public class OperacaoController {
         Operacao op = dao.buscarPorId(idOperacao);
         dao.deletar(idOperacao);
     }
+    
+    public void atualizarOperacao(Operacao op){
+        try{
+            if(op != null){
+                dao.atualizarOperacao(op);
+            }else{
+                System.out.println("Operacao inválida");
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+    
+    public void buscarOp(int id){
+        if(id > 0){
+            dao.buscarPorId(id);
+        }
+    
+    }
       
 }

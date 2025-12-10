@@ -1200,29 +1200,59 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletarVeiculoActionPerformed
 
     private void btnSalvarCadastroOperacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroOperacaoActionPerformed
-        Vaga vagaDoCombo = (Vaga) cbxVagas.getSelectedItem();
-        if (veiculoSelecionado == null) {
-            JOptionPane.showMessageDialog(this, "Selecione um veículo (busque pelo botão 'Buscar Veículo')!");
-        return;
-        }
-        if (vagaDoCombo == null) {
-            JOptionPane.showMessageDialog(this, "Selecione uma vaga na lista!");
-        return;
-        }
-        try{
+        Operacao op = retornaOperacao();
+        Vaga vagaDoCombo = (Vaga) cbxVagas.getSelectedItem(); 
+        if(op != null){
+            try{
+                op.setVaga(vagaDoCombo);
+                if(linhaSelecionada > -1){
+                    int id = (int) tblOperacao.getValueAt(linhaSelecionada, 0);
+                    oc.atualizarOperacao(op); 
+                    System.out.println(id);
+                    System.out.println(op.getVeiculo().getId());
+                    JOptionPane.showMessageDialog(this, "Operação atualizada com sucesso!");
+                }else {
+                    oc.registrarEntrada(op);
+                    JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
+                }
+                atualizarTabelaOperacoes("");
+                limparCamposOperacao();
             
-            Operacao op = retornaOperacao();
-            op.setVaga(vagaDoCombo);
-            oc.registrarEntrada(op);
-            atualizarTabelaOperacoes("");
-            atualizarTabelaVagas("");
-            preencheCbxVaga();
-            limparCamposOperacao();
-            JOptionPane.showMessageDialog(this, "Entrada registrada com sucesso!");
-            
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+            }catch(Exception e){
+                e.printStackTrace(); 
+                JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
         }
+        
+        
+        
+        
+        
+        
+        
+        //Vaga vagaDoCombo = (Vaga) cbxVagas.getSelectedItem(); 
+        //if (veiculoSelecionado == null) {
+            //JOptionPane.showMessageDialog(this, "Selecione um veículo (busque pelo botão 'Buscar Veículo')!");
+        //return;
+        //}
+        //if (vagaDoCombo == null) {
+            //JOptionPane.showMessageDialog(this, "Selecione uma vaga na lista!");
+        //return;
+        //}
+        //try{
+            
+            //Operacao op = retornaOperacao();
+            //op.setVaga(vagaDoCombo);
+            //oc.registrarEntrada(op);
+            //atualizarTabelaOperacoes("");
+            //atualizarTabelaVagas("");
+            //preencheCbxVaga();
+            //limparCamposOperacao();
+            //JOptionPane.showMessageDialog(this, "Entrada registrada com sucesso!");
+            
+        //}catch (Exception e){
+            //JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage());
+        //}
     }//GEN-LAST:event_btnSalvarCadastroOperacaoActionPerformed
 
     private void cbxVagasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVagasActionPerformed
@@ -1296,23 +1326,60 @@ public class Principal extends javax.swing.JFrame {
 
     private void tblOperacaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOperacaoMouseClicked
         linhaSelecionada = tblOperacao.getSelectedRow();
-       
+        
         
    
         if (linhaSelecionada > -1) {
+            
+            
+            
         int id = (int) tblOperacao.getValueAt(linhaSelecionada, 0);
         this.op = oDAO.buscarPorId(id);
-        String vaga = tblOperacao.getValueAt(linhaSelecionada, 1).toString();
-        String entrada = tblOperacao.getValueAt(linhaSelecionada, 3).toString();
-        String saida = tblOperacao.getValueAt(linhaSelecionada, 4).toString();
-        String valorTotal = tblOperacao.getValueAt(linhaSelecionada, 5).toString();
-        atualizarPainelDadosOperacao(op);
         
-        txtPlacaOp.setText(op.getVeiculo().getPlaca());
-        txtModeloOp.setText(op.getVeiculo().getModelo());
-        txtCorOp.setText(op.getVeiculo().getCor());
-        txtNomeClienteOp.setText(op.getVeiculo().getCliente().getNome());
+            if(this.op != null){
+                atualizarPainelDadosOperacao(op);
+                if(this.op.getVeiculo() != null){
+                    preencherVeiculo(this.op.getVeiculo());
+                }
+                
+                if(this.op.getVeiculo().getCliente() != null){
+                    preencherCliente(this.op.getVeiculo().getCliente());
+                }
+                double valor = op.getValorHora();
+                String valorFormatado = String.format("%.2f", valor);
+                txtValorHora.setText(valorFormatado);
+            }
+        
+        //String vaga = tblOperacao.getValueAt(linhaSelecionada, 1).toString();
+        //String entrada = tblOperacao.getValueAt(linhaSelecionada, 3).toString();
+        //String saida = tblOperacao.getValueAt(linhaSelecionada, 4).toString();
+        //String valorTotal = tblOperacao.getValueAt(linhaSelecionada, 5).toString();
+        //atualizarPainelDadosOperacao(op);
+        
+        //txtPlacaOp.setText(op.getVeiculo().getPlaca());
+        //txtModeloOp.setText(op.getVeiculo().getModelo());
+        //txtCorOp.setText(op.getVeiculo().getCor());
+        //txtNomeClienteOp.setText(op.getVeiculo().getCliente().getNome());
+        //double valor = op.getValorHora();
+        //String valorFormatado = String.format("%.2f", valor);
+        //txtValorHora.setText(valorFormatado);
         }
+        
+        //linhaSelecionada = tblOperacao.getSelectedRow();
+        //int id = (int) tblOperacao.getValueAt(linhaSelecionada, 0);
+        
+        //String termoDeBusca = String.valueOf(id);
+        //List<Operacao> resultado = oc.filtrarOperacoes(termoDeBusca);
+        
+        //for(Operacao op : resultado){
+            //if(op.getId_operacao() == id){
+                //txtPlacaOp.setText(op.getVeiculo().getPlaca());
+                //txtModeloOp.setText(op.getVeiculo().getModelo());
+                //txtCorOp.setText(op.getVeiculo().getCor());
+                //txtNomeClienteOp.setText(op.getVeiculo().getCliente().getNome());
+                //cbxVagas.setSelectedItem(op.getVaga());
+           // }
+        //}
     }//GEN-LAST:event_tblOperacaoMouseClicked
 
 
@@ -1507,9 +1574,7 @@ private Operacao retornaOperacao(){
     op.setHorarioEntrada(LocalDateTime.now());
     op.setVeiculo(veiculoSelecionado);
     op.setValorHora(precoHora);
-    
-    
-    
+  
     return op;
 }
 public void preencherCliente(Cliente c){
