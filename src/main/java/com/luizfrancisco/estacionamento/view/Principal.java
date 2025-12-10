@@ -87,8 +87,8 @@ public class Principal extends javax.swing.JFrame {
         txtEmailClienteCadastro = new javax.swing.JTextField();
         txtTelefoneClienteCadastro = new javax.swing.JTextField();
         btnSalvarCadastroCliente = new javax.swing.JButton();
-        btnSalvarCadastroCliente1 = new javax.swing.JButton();
-        btnSalvarCadastroCliente5 = new javax.swing.JButton();
+        btnDeletarCliente = new javax.swing.JButton();
+        btnEditarCliente = new javax.swing.JButton();
         txtBuscarCliente = new javax.swing.JTextField();
         btnBuscarCliente = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -113,8 +113,8 @@ public class Principal extends javax.swing.JFrame {
         txtCorOp = new javax.swing.JTextField();
         txtModeloOp = new javax.swing.JTextField();
         btnSalvarCadastroOperacao = new javax.swing.JButton();
-        btnSalvarCadastroCliente10 = new javax.swing.JButton();
-        btnSalvarCadastroCliente11 = new javax.swing.JButton();
+        btnDeletarOp = new javax.swing.JButton();
+        btnEditarOp = new javax.swing.JButton();
         lblBuscarVeiculo = new javax.swing.JLabel();
         txtNomeClienteOp = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -176,17 +176,17 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnSalvarCadastroCliente1.setText("Deletar");
-        btnSalvarCadastroCliente1.addActionListener(new java.awt.event.ActionListener() {
+        btnDeletarCliente.setText("Deletar");
+        btnDeletarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarCadastroCliente1ActionPerformed(evt);
+                btnDeletarClienteActionPerformed(evt);
             }
         });
 
-        btnSalvarCadastroCliente5.setText("Editar");
-        btnSalvarCadastroCliente5.addActionListener(new java.awt.event.ActionListener() {
+        btnEditarCliente.setText("Editar");
+        btnEditarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarCadastroCliente5ActionPerformed(evt);
+                btnEditarClienteActionPerformed(evt);
             }
         });
 
@@ -227,11 +227,11 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addComponent(btnSalvarCadastroCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnSalvarCadastroCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnDeletarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSalvarCadastroCliente5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEditarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 162, Short.MAX_VALUE))
         );
@@ -246,8 +246,8 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarCadastroCliente)
-                    .addComponent(btnSalvarCadastroCliente1)
-                    .addComponent(btnSalvarCadastroCliente5))
+                    .addComponent(btnDeletarCliente)
+                    .addComponent(btnEditarCliente))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -491,14 +491,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnSalvarCadastroCliente10.setText("Deletar");
-        btnSalvarCadastroCliente10.addActionListener(new java.awt.event.ActionListener() {
+        btnDeletarOp.setText("Deletar");
+        btnDeletarOp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarCadastroCliente10ActionPerformed(evt);
+                btnDeletarOpActionPerformed(evt);
             }
         });
 
-        btnSalvarCadastroCliente11.setText("Editar");
+        btnEditarOp.setText("Editar");
 
         lblBuscarVeiculo.setFont(new java.awt.Font("Fira Sans", 1, 14)); // NOI18N
         lblBuscarVeiculo.setForeground(new java.awt.Color(0, 51, 204));
@@ -666,9 +666,9 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addComponent(btnSalvarCadastroOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSalvarCadastroCliente10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnDeletarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalvarCadastroCliente11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(btnEditarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addComponent(txtBuscarOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -707,8 +707,8 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalvarCadastroOperacao)
-                            .addComponent(btnSalvarCadastroCliente10)
-                            .addComponent(btnSalvarCadastroCliente11))
+                            .addComponent(btnDeletarOp)
+                            .addComponent(btnEditarOp))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBuscarOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -987,7 +987,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnSalvarCadastroCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente1ActionPerformed
+    private void btnDeletarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarClienteActionPerformed
 // A variável 'linha' é definida pelo evento tblClientesPrincipalMouseClicked, 
     // mas é mais seguro pegar diretamente de tblClientesPrincipal.
     linha = tblClientesPrincipal.getSelectedRow(); 
@@ -1031,11 +1031,11 @@ public class Principal extends javax.swing.JFrame {
             }
         }
     }        
-    }//GEN-LAST:event_btnSalvarCadastroCliente1ActionPerformed
+    }//GEN-LAST:event_btnDeletarClienteActionPerformed
 
-    private void btnSalvarCadastroCliente5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente5ActionPerformed
+    private void btnEditarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarClienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvarCadastroCliente5ActionPerformed
+    }//GEN-LAST:event_btnEditarClienteActionPerformed
 
     private void txtCorVeiculoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorVeiculoCadastroActionPerformed
         // TODO add your handling code here:
@@ -1311,7 +1311,7 @@ public class Principal extends javax.swing.JFrame {
         gerarRelatorio("relatorio_estacionamento");
     }//GEN-LAST:event_btnImprimirRelatorioActionPerformed
 
-    private void btnSalvarCadastroCliente10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente10ActionPerformed
+    private void btnDeletarOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarOpActionPerformed
        linhaSelecionada = tblOperacao.getSelectedRow();
        
        try{
@@ -1332,7 +1332,7 @@ public class Principal extends javax.swing.JFrame {
        }catch(Exception e){
            System.out.println("ERRO -> " + e);
        }
-    }//GEN-LAST:event_btnSalvarCadastroCliente10ActionPerformed
+    }//GEN-LAST:event_btnDeletarOpActionPerformed
 
 
     /**
@@ -1380,15 +1380,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarOp;
     private javax.swing.JButton btnBuscarVaga;
     private javax.swing.JButton btnBuscarVeiculo;
+    private javax.swing.JButton btnDeletarCliente;
+    private javax.swing.JButton btnDeletarOp;
     private javax.swing.JButton btnDeletarVeiculo;
+    private javax.swing.JButton btnEditarCliente;
+    private javax.swing.JButton btnEditarOp;
     private javax.swing.JButton btnEditarVeiculo;
     private javax.swing.JButton btnFinalizarOp;
     private javax.swing.JToggleButton btnImprimirRelatorio;
     private javax.swing.JButton btnSalvarCadastroCliente;
-    private javax.swing.JButton btnSalvarCadastroCliente1;
-    private javax.swing.JButton btnSalvarCadastroCliente10;
-    private javax.swing.JButton btnSalvarCadastroCliente11;
-    private javax.swing.JButton btnSalvarCadastroCliente5;
     private javax.swing.JButton btnSalvarCadastroOperacao;
     private javax.swing.JButton btnSalvarCadastroVeiculo;
     private javax.swing.JComboBox<Vaga> cbxVagas;
@@ -1683,6 +1683,37 @@ private void atualizarEstadoBotaoFinalizar(int idOperacao) {
         btnFinalizarOp.setEnabled(false);
         btnFinalizarOp.setBackground(Color.LIGHT_GRAY); 
         btnFinalizarOp.setForeground(Color.DARK_GRAY);
+    }
+}
+public void configurarAcesso(boolean isAdmin) {
+    if (isAdmin) {
+        // Usuário Administrador: Deixa tudo habilitado (estado padrão)
+        System.out.println("Acesso como Administrador.");
+        
+        // Exemplo: Botões de CRUD completo e Relatórios
+        btnEditarVeiculo.setEnabled(true);
+        btnDeletarVeiculo.setEnabled(true);
+        btnImprimirRelatorio.setEnabled(true); // Se você tiver um botão de relatórios
+
+    } else {
+        // Usuário Comum: Bloqueia funcionalidades de alto risco
+        System.out.println("Acesso como Usuário Comum. Funcionalidades de Admin bloqueadas.");
+        
+        // Bloqueia Edição e Exclusão
+        btnEditarVeiculo.setEnabled(false);
+        btnDeletarVeiculo.setEnabled(false);
+        btnEditarCliente.setEnabled(false);
+        btnDeletarCliente.setEnabled(false);
+        btnEditarOp.setEnabled(false);
+        btnDeletarOp.setEnabled(false);
+        
+        // Bloqueia Geração de Relatórios (se houver)
+        if (btnImprimirRelatorio != null) {
+            btnImprimirRelatorio.setEnabled(false);
+        }
+        
+        // Opcional: Altera a cor ou texto para indicar o bloqueio
+        // btnDeletar.setBackground(Color.LIGHT_GRAY);
     }
 }
 
