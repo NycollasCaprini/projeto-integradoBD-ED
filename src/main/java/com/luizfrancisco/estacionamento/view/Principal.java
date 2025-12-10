@@ -28,7 +28,9 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import com.luizfrancisco.estacionamento.model.EstatisticaVaga;
+import com.luizfrancisco.estacionamento.util.ValidadorDeCampos;
 import java.awt.Color;
+import java.awt.HeadlessException;
 /**
  *
  * @author User
@@ -88,7 +90,6 @@ public class Principal extends javax.swing.JFrame {
         txtTelefoneClienteCadastro = new javax.swing.JTextField();
         btnSalvarCadastroCliente = new javax.swing.JButton();
         btnSalvarCadastroCliente1 = new javax.swing.JButton();
-        btnSalvarCadastroCliente5 = new javax.swing.JButton();
         txtBuscarCliente = new javax.swing.JTextField();
         btnBuscarCliente = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -100,7 +101,6 @@ public class Principal extends javax.swing.JFrame {
         txtModeloVeiculoCadastro = new javax.swing.JTextField();
         btnSalvarCadastroVeiculo = new javax.swing.JButton();
         btnDeletarVeiculo = new javax.swing.JButton();
-        btnEditarVeiculo = new javax.swing.JButton();
         txtNomeClienteVeiculo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         txtBuscarVeiculo = new javax.swing.JTextField();
@@ -114,7 +114,6 @@ public class Principal extends javax.swing.JFrame {
         txtModeloOp = new javax.swing.JTextField();
         btnSalvarCadastroOperacao = new javax.swing.JButton();
         btnSalvarCadastroCliente10 = new javax.swing.JButton();
-        btnSalvarCadastroCliente11 = new javax.swing.JButton();
         lblBuscarVeiculo = new javax.swing.JLabel();
         txtNomeClienteOp = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
@@ -183,13 +182,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnSalvarCadastroCliente5.setText("Editar");
-        btnSalvarCadastroCliente5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarCadastroCliente5ActionPerformed(evt);
-            }
-        });
-
         txtBuscarCliente.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Cliente"));
         txtBuscarCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -230,9 +222,7 @@ public class Principal extends javax.swing.JFrame {
                                 .addComponent(btnSalvarCadastroCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnSalvarCadastroCliente5, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(btnBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 162, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
@@ -246,8 +236,7 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalvarCadastroCliente)
-                    .addComponent(btnSalvarCadastroCliente1)
-                    .addComponent(btnSalvarCadastroCliente5))
+                    .addComponent(btnSalvarCadastroCliente1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtBuscarCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,8 +316,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btnEditarVeiculo.setText("Editar");
-
         txtNomeClienteVeiculo.setBorder(javax.swing.BorderFactory.createTitledBorder("Cliente"));
         txtNomeClienteVeiculo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,9 +371,7 @@ public class Principal extends javax.swing.JFrame {
                             .addGroup(jPanel12Layout.createSequentialGroup()
                                 .addComponent(btnSalvarCadastroVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnDeletarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnDeletarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel12Layout.createSequentialGroup()
@@ -415,8 +400,7 @@ public class Principal extends javax.swing.JFrame {
                         .addComponent(btnBuscarVeiculo))
                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSalvarCadastroVeiculo)
-                        .addComponent(btnDeletarVeiculo)
-                        .addComponent(btnEditarVeiculo)))
+                        .addComponent(btnDeletarVeiculo)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -497,8 +481,6 @@ public class Principal extends javax.swing.JFrame {
                 btnSalvarCadastroCliente10ActionPerformed(evt);
             }
         });
-
-        btnSalvarCadastroCliente11.setText("Editar");
 
         lblBuscarVeiculo.setFont(new java.awt.Font("Fira Sans", 1, 14)); // NOI18N
         lblBuscarVeiculo.setForeground(new java.awt.Color(0, 51, 204));
@@ -654,28 +636,29 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jPanel13Layout.createSequentialGroup()
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(txtPlacaOp, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtModeloOp, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(cbxVagas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtValorHora, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblBuscarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
-                                .addComponent(btnSalvarCadastroOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSalvarCadastroCliente10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSalvarCadastroCliente11, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addComponent(txtBuscarOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnBuscarOp, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnImprimirRelatorio, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(3, 3, 3)))
+                                .addGap(3, 3, 3))
+                            .addGroup(jPanel13Layout.createSequentialGroup()
+                                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(txtPlacaOp, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(txtModeloOp, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(cbxVagas, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtValorHora, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblBuscarVeiculo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel13Layout.createSequentialGroup()
+                                        .addComponent(btnSalvarCadastroOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnSalvarCadastroCliente10, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel13Layout.createSequentialGroup()
                                 .addGap(80, 80, 80)
@@ -707,8 +690,7 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnSalvarCadastroOperacao)
-                            .addComponent(btnSalvarCadastroCliente10)
-                            .addComponent(btnSalvarCadastroCliente11))
+                            .addComponent(btnSalvarCadastroCliente10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtBuscarOperacao, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -988,12 +970,10 @@ public class Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalvarCadastroCliente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente1ActionPerformed
-// A variável 'linha' é definida pelo evento tblClientesPrincipalMouseClicked, 
-    // mas é mais seguro pegar diretamente de tblClientesPrincipal.
-    linha = tblClientesPrincipal.getSelectedRow(); 
 
-    // 1. Verifica se alguma linha foi selecionada (linha < 0 significa que nada foi clicado)
-    if (linha < 0) {
+    linhaSelecionada = tblClientesPrincipal.getSelectedRow(); 
+
+    if (linhaSelecionada < 0) {
         JOptionPane.showMessageDialog(
             this,
             "Nenhum cliente selecionado. Por favor, selecione um cliente na tabela.",
@@ -1002,29 +982,22 @@ public class Principal extends javax.swing.JFrame {
         );
 
     } else {
-        // 2. Obtém o ID do cliente da coluna 0 da linha selecionada
-        int idCliente = (int) tblClientesPrincipal.getValueAt(linha, 0);
+       
+        int idCliente = (int) tblClientesPrincipal.getValueAt(linhaSelecionada, 0);
 
-        // 3. Pede confirmação antes de deletar
+      
         int confirmacao = JOptionPane.showConfirmDialog(this, 
                 "Tem certeza que deseja excluir o cliente ID: " + idCliente + "?", 
                 "Confirmação de Exclusão", JOptionPane.YES_NO_OPTION);
 
         if (confirmacao == JOptionPane.YES_OPTION) {
-            try {
-                // 4. Chama o DAO para deletar
-                cDAO.deletar(idCliente);
-
-                // 5. Atualiza a tabela para refletir a exclusão
+            try {              
+               cc.deletarCliente(idCliente);              
                 atualizarTabelaClientes("");
-
-                // 6. Limpa os campos de texto do cadastro de cliente
-                limparCamposCliente(); // Você deve criar este método (veja abaixo)
-                
+       
+                limparCamposCliente();         
                 JOptionPane.showMessageDialog(this, "Cliente excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
             } catch (RuntimeException e) {
-                // Trata a exceção de Foreign Key (se houver veículos vinculados)
                 JOptionPane.showMessageDialog(this, 
                         "Erro ao excluir. O cliente possui veículos vinculados e não pode ser deletado.", 
                         "Erro de Exclusão", JOptionPane.ERROR_MESSAGE);
@@ -1032,10 +1005,6 @@ public class Principal extends javax.swing.JFrame {
         }
     }        
     }//GEN-LAST:event_btnSalvarCadastroCliente1ActionPerformed
-
-    private void btnSalvarCadastroCliente5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroCliente5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSalvarCadastroCliente5ActionPerformed
 
     private void txtCorVeiculoCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorVeiculoCadastroActionPerformed
         // TODO add your handling code here:
@@ -1089,29 +1058,87 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarOperacaoActionPerformed
 
     private void btnSalvarCadastroClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroClienteActionPerformed
+
+        if(ValidadorDeCampos.temCampoVazio(txtNomeClienteCadastro, "Nome do cliente")) return;
+        if(ValidadorDeCampos.temCampoVazio(txtEmailClienteCadastro, "Email do cliente")) return;
+        if(ValidadorDeCampos.temCampoVazio(txtTelefoneClienteCadastro, "Telefone do cliente")) return;
+        if(ValidadorDeCampos.isEmailInvalido(txtEmailClienteCadastro)) return;
         Cliente c = retornaCliente();
-    
-        if(c != null){
-        cDAO.inserir(c);
-        atualizarTabelaClientes("");
-        limparCamposCliente();
-        JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+        if (c != null) {
+            try {
+                if (linhaSelecionada > -1) {
+            
+                    int id = (int) tblClientesPrincipal.getValueAt(linhaSelecionada, 0);
+                    cc.editarCliente(id, c);
+                    JOptionPane.showMessageDialog(this, "Cliente atualizado com sucesso!");
+                } else {
+            
+                    cc.cadastrarCliente(c);
+                    JOptionPane.showMessageDialog(this, "Cliente cadastrado com sucesso!");
+                }
+        
+       
+                atualizarTabelaClientes("");
+                limparCamposCliente();
+        
+         } catch (Exception e) { 
+                e.printStackTrace(); 
+                JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
     }
+}
+       
+  
     }//GEN-LAST:event_btnSalvarCadastroClienteActionPerformed
 
     private void btnSalvarCadastroVeiculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarCadastroVeiculoActionPerformed
+        if(ValidadorDeCampos.temCampoVazio(txtPlacaVeiculoCadastro, "Placa do veículo")) return;
+        if(ValidadorDeCampos.temCampoVazio(txtModeloVeiculoCadastro, "Modelo do veículo")) return;
+        if(ValidadorDeCampos.temCampoVazio(txtCorVeiculoCadastro, "Cor do veículo")) return;
+        if(ValidadorDeCampos.temCampoVazio(txtNomeClienteVeiculo, "Cor do veículo")) return;
+        
+        
         Veiculo v = retornaVeiculo();
     
         if(v != null){
-        vDAO.inserir(v);
-        atualizarTabelaVeiculos("");
-        limparCamposVeiculo();     
-        JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
-    }
+            try{
+                if(linhaSelecionada > -1){
+                    int id = (int) tblCadastroVeiculos.getValueAt(linhaSelecionada, 0);
+                    vc.atualizarVeiculo(id, v);
+                    System.out.println(id);
+                    System.out.println(v.getCliente().getNome());
+                    JOptionPane.showMessageDialog(this, "Veículo atualizado com sucesso!");
+                }else {
+                    vc.cadastrarVeiculo(v);
+                    JOptionPane.showMessageDialog(this, "Veículo cadastrado com sucesso!");
+                }
+                atualizarTabelaVeiculos("");
+                limparCamposVeiculo();
+            
+            }catch(Exception e){
+                e.printStackTrace(); 
+                JOptionPane.showMessageDialog(this, "Erro ao salvar: " + e.getMessage(), "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    
     }//GEN-LAST:event_btnSalvarCadastroVeiculoActionPerformed
 
     private void tblCadastroVeiculosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCadastroVeiculosMouseClicked
-
+        linhaSelecionada = tblCadastroVeiculos.getSelectedRow();
+        int idVeiculo = (int) tblCadastroVeiculos.getValueAt(linhaSelecionada, 0);
+        
+        String termoDeBusca = String.valueOf(idVeiculo);
+        List<Veiculo> resultado = vc.filtrarVeiculos(termoDeBusca);
+        
+        for(Veiculo v : resultado){
+            if(v.getId() == idVeiculo){
+                txtPlacaVeiculoCadastro.setText(v.getPlaca());
+                txtModeloVeiculoCadastro.setText(v.getModelo());
+                txtCorVeiculoCadastro.setText(v.getCor());
+                this.clienteSelecionado = v.getCliente();
+                txtNomeClienteVeiculo.setText(v.getCliente().getNome());
+                break;
+            }
+        }
     }//GEN-LAST:event_tblCadastroVeiculosMouseClicked
 
     private void tblClientesPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblClientesPrincipalMouseClicked
@@ -1121,7 +1148,7 @@ public class Principal extends javax.swing.JFrame {
    
         if (linhaSelecionada > -1) {
         int id = (int) tblClientesPrincipal.getValueAt(linhaSelecionada, 0);
-        String nome = tblClientesPrincipal.getValueAt(linhaSelecionada, 1).toString();
+        String nome = tblClientesPrincipal.getValueAt(linhaSelecionada, 1) != null ? tblClientesPrincipal.getValueAt(linhaSelecionada, 1).toString() : "";
         String email = tblClientesPrincipal.getValueAt(linhaSelecionada, 2) != null ? tblClientesPrincipal.getValueAt(linhaSelecionada, 2).toString() : ""; 
         String telefone = tblClientesPrincipal.getValueAt(linhaSelecionada, 3) != null ? tblClientesPrincipal.getValueAt(linhaSelecionada, 3).toString() : "";
         txtNomeClienteCadastro.setText(nome);
@@ -1381,14 +1408,11 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarVaga;
     private javax.swing.JButton btnBuscarVeiculo;
     private javax.swing.JButton btnDeletarVeiculo;
-    private javax.swing.JButton btnEditarVeiculo;
     private javax.swing.JButton btnFinalizarOp;
     private javax.swing.JToggleButton btnImprimirRelatorio;
     private javax.swing.JButton btnSalvarCadastroCliente;
     private javax.swing.JButton btnSalvarCadastroCliente1;
     private javax.swing.JButton btnSalvarCadastroCliente10;
-    private javax.swing.JButton btnSalvarCadastroCliente11;
-    private javax.swing.JButton btnSalvarCadastroCliente5;
     private javax.swing.JButton btnSalvarCadastroOperacao;
     private javax.swing.JButton btnSalvarCadastroVeiculo;
     private javax.swing.JComboBox<Vaga> cbxVagas;

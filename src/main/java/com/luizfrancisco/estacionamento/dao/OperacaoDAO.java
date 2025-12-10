@@ -70,7 +70,7 @@ public class OperacaoDAO {
             e.printStackTrace();
         }
     }
-    
+       
     public List<Operacao> listarOperacao(){
         List<Operacao> lista = new ArrayList<>();
         
